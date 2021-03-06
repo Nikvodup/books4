@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>The title you are looking for</title>
+    <style>
+        #container {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #title {
+            width: 50%;
+            border-collapse: collapse;
+        }
+
+        table {
+            margin: 25px;
+        }
+
+        th {
+            text-align: left;
+        }
+
+        th, td {
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <form>
+        <table id="title">
+            <tr>
+                <th>id</th>
+                <th>author</th>
+                <th>title</th>
+                <th>size</th>
+            </tr>
+            <tr th:each="book : ${matches}">
+                <td th:text="${book.id}"></td>
+                <td th:text="${book.author}"></td>
+                <td th:text="${book.title}"></td>
+                <td th:text="${book.size}"></td>
+            </tr>
+        </table>
+        <a th:href="@{shelf}" >Back to main page</a>
+    </form>
+</div>
+
+</body>
+</html>
