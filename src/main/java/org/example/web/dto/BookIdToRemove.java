@@ -1,20 +1,18 @@
 package org.example.web.dto;
 
 
-
-
-
+import javax.validation.constraints.Min;
 
 public class BookIdToRemove {
 
+     @Min(value = 1)
+    private int id;
 
-    private Integer id;
-
-    public  Integer getId() {
+    public  int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 }
