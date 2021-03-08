@@ -36,6 +36,7 @@
             <tr>
                 <td>
                     <input type="text" placeholder="author" th:field="*{author}">
+
                 </td>
                 <td>
                     <input type="text" placeholder="book_title" th:field="*{title}">
@@ -48,9 +49,7 @@
                 </td>
                 <td>
                     <input type="submit" value="save">
-                <td th:if="${#fields.hasErrors()}">
-                    <p>Wrong id or not found</p>
-                </td>
+
                 </td>
             </tr>
         </table>
