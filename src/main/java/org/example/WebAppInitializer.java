@@ -9,11 +9,21 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 
 import org.springframework.web.servlet.DispatcherServlet;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
+import org.springframework.boot.CommandLineRunner;
 
-public class WebAppInitializer implements WebApplicationInitializer {
+import org.example.app.services.FileStorage;
+
+
+public class WebAppInitializer implements WebApplicationInitializer, CommandLineRunner {
+
+    @Resource
+    FileStorage fileStorage;
+
+
     @Override
     public void onStartup(javax.servlet.ServletContext servletContext) throws ServletException {
 
@@ -45,4 +55,11 @@ public class WebAppInitializer implements WebApplicationInitializer {
 
 
     }
+
+    @Override
+    public void run(String... args) throws Exception {
+        fileStorage.deleteAll();
+        fileStorage.init();
+    }
+
 }

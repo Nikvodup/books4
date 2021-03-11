@@ -103,16 +103,18 @@
         </table>
     </form>
 
-    <form method="post" th:action="@{/books/uploadFile}" enctype="multipart/form-data" >
-        <tr>
-            <td>
-                <input type="file" name="file">
-            </td>
-            <td>
-                <input type="submit" value="Upload">
-            </td>
-        </tr>
+    <form method="POST"    enctype="multipart/form-data" id="fileUploadForm">
+        <div class="form-group">
+            <input type="file" class="form-control" id="files"
+                   placeholder="Upload Multiple Files"  name="files" multiple></input>
+        </div>
+        <button type="submit" class="btn btn-default" id="btnSubmit">Upload</button>
+        <a th:href="@{/files}" class="btn btn-default" role="button">Uploaded file(s)</a>
     </form>
+    <div th:if="${message}">
+        <strong><span th:text="${message}"/></strong>
+        <hr>
+    </div>
 
 
     <table id="books">
