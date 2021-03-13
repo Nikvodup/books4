@@ -18,13 +18,10 @@ import java.util.stream.Collectors;
 @Controller
 public class UploadFileController {
 	
-	@Resource
+	@Autowired
 	FileStorage fileStorage;
 
-	@Autowired
-	public UploadFileController(FileStorage fileStorage) {
-		this.fileStorage = fileStorage;
-	}
+
 
 	@PostMapping("/books/shelf")
     public String uploadMultipartFile(@RequestParam("files") MultipartFile[] files, Model model) {

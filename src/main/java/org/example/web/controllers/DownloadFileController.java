@@ -12,20 +12,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
 public class DownloadFileController {
 
-	@javax.annotation.Resource
+	@Autowired
 	FileStorage fileStorage;
 
 
-	@Autowired
-	public DownloadFileController(FileStorage fileStorage) {
-		this.fileStorage = fileStorage;
-	}
+
 
 	@GetMapping("/files")
 	public String getListFiles(Model model) {
