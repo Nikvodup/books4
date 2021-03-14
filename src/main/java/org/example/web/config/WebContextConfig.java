@@ -1,7 +1,5 @@
 package org.example.web.config;
 
-
-import org.example.app.services.FileStorage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -13,15 +11,15 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
-import javax.annotation.Resource;
+
+
 
 @Configuration
 @ComponentScan(basePackages = "org.example.web")
 @EnableWebMvc
 public class WebContextConfig implements WebMvcConfigurer {
 
-    @Resource
-    FileStorage fileStorage;
+
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -57,11 +55,13 @@ public class WebContextConfig implements WebMvcConfigurer {
         return viewResolver;
     }
 
-  //  @Bean
-   // public CommonsMultipartResolver multipartResolver(){
-    //    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-    //    multipartResolver.setMaxUploadSize(50000000);// 50mb
-    //    return multipartResolver;
-   // }
+    @Bean
+    public CommonsMultipartResolver multipartResolver(){
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(50000000);// 50mb
+        return multipartResolver;
+    }
+
+
 
 }

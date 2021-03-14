@@ -2,26 +2,24 @@ package org.example;
 
 import org.example.app.config.AppContextConfig;
 import org.example.web.config.WebContextConfig;
+import org.example.web.controllers.DownloadFileController;
 import org.h2.server.web.WebServlet;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
-import org.springframework.boot.CommandLineRunner;
 
-import org.example.app.services.FileStorage;
+public class WebAppInitializer implements WebApplicationInitializer {
 
 
-public class WebAppInitializer implements WebApplicationInitializer, CommandLineRunner {
-
-    @Resource
-    FileStorage fileStorage;
 
 
     @Override
@@ -56,10 +54,13 @@ public class WebAppInitializer implements WebApplicationInitializer, CommandLine
 
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-        fileStorage.deleteAll();
-        fileStorage.init();
+    @Bean
+    public CommonsMultipartResolver multipartResolver(){
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(500000);
+        return multipartResolver;
     }
+
+
 
 }

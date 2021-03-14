@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.BufferedOutputStream;
@@ -27,6 +28,8 @@ public class BookShelfController {
 
     private Logger logger = Logger.getLogger(BookShelfController.class);
     private BookService bookService;
+
+
 
     @Autowired
     public BookShelfController(BookService bookService) {
@@ -123,10 +126,8 @@ public class BookShelfController {
 
     @PostMapping("/uploadFile")
     public String uploadFile(@RequestParam("file") MultipartFile file)
-            throws Exception, NoFileFoundException{
-        if(file==null){
-            throw  new NoFileFoundException("Ooops, you haven't chosen any file to upload!");
-        } else {
+            throws Exception{
+
             String name = file.getOriginalFilename();
             byte[] bytes = file.getBytes();
 
@@ -146,13 +147,10 @@ public class BookShelfController {
             logger.info("file saved at" + serverFile.getAbsolutePath());
 
             return "redirect:/books/shelf";
-        }
 
     }
 
-    @ExceptionHandler(NoFileFoundException.class)
-    public String handleError(Model model, NoFileFoundException exception){
-        model.addAttribute("errorMessage", exception.getMessage());
-        return "errors/no_file";
-    }
+
+
+
 }
