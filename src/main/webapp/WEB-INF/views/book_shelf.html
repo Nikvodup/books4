@@ -104,16 +104,21 @@
     </form>
 
     <form method="post" th:action="@{/books/uploadFile}" enctype="multipart/form-data" >
-        <tr>
-            <td>
-                <input type="file" name="file">
-            </td>
-            <td>
+        <div>
+            <input type="file" name="file">
+        </div>
+
+
+
                 <input type="submit" value="Upload">
                 <a th:href="@{/files}" class="btn btn-default" role="button">Uploaded file(s)</a>
-            </td>
-        </tr>
+
+
     </form>
+    <div th:if="${message}">
+        <strong><span th:text="${message}"/></strong>
+        <hr>
+    </div>
 
 
     <table id="books">

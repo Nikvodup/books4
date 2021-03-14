@@ -125,29 +125,36 @@ public class BookShelfController {
     //-------------------------------upload files
 
     @PostMapping("/uploadFile")
-    public String uploadFile(@RequestParam("file") MultipartFile file)
+    public String uploadFile(@RequestParam("file") MultipartFile file, Model model)
             throws Exception{
 
-            String name = file.getOriginalFilename();
-            byte[] bytes = file.getBytes();
+          try {
+              String name = file.getOriginalFilename();
 
-            // create dir
-            String rootPath = System.getProperty("catalina.home");
-            File dir = new File(rootPath + File.separator + "external_uploads");
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
+              byte[] bytes = file.getBytes();
 
-            // create file
-            File serverFile = new File(dir.getAbsolutePath() + File.separator + name);
-            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-            stream.write(bytes);
-            stream.close();
+              // create dir
+              String rootPath = System.getProperty("catalina.home");
+              File dir = new File(rootPath + File.separator + "external_uploads");
+              if (!dir.exists()) {
+                  dir.mkdirs();
+              }
 
-            logger.info("file saved at" + serverFile.getAbsolutePath());
+              // create file
+              File serverFile = new File(dir.getAbsolutePath() + File.separator + name);
+              BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+              stream.write(bytes);
+              stream.close();
 
-            return "redirect:/books/shelf";
+              logger.info("file saved at" + serverFile.getAbsolutePath());
 
+              model.addAttribute("message", "File uploaded successfully.");
+
+
+          } catch (Exception e){
+              model.addAttribute("message", "Fail! Or file to upload not found.");
+          }
+        return "redirect:/books/shelf";
     }
 
 
