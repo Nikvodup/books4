@@ -1,9 +1,11 @@
 package org.example;
 
 import org.example.app.config.AppContextConfig;
+import org.example.app.services.FileStorage;
 import org.example.web.config.WebContextConfig;
 import org.example.web.controllers.DownloadFileController;
 import org.h2.server.web.WebServlet;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
@@ -11,6 +13,7 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.DispatcherServlet;
+
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -20,10 +23,15 @@ import javax.servlet.ServletRegistration;
 public class WebAppInitializer implements WebApplicationInitializer {
 
 
+     @Autowired
+    FileStorage fileStorage = new FileStorage();
 
 
     @Override
     public void onStartup(javax.servlet.ServletContext servletContext) throws ServletException {
+
+        fileStorage.deleteAll();
+        fileStorage.init();
 
 
         AnnotationConfigWebApplicationContext appContext =
@@ -54,12 +62,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
 
     }
 
-    @Bean
-    public CommonsMultipartResolver multipartResolver(){
-        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-        multipartResolver.setMaxUploadSize(500000);
-        return multipartResolver;
-    }
+
 
 
 

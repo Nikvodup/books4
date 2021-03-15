@@ -123,40 +123,38 @@ public class BookShelfController {
     }
 
     //-------------------------------upload files
-
     @PostMapping("/uploadFile")
     public String uploadFile(@RequestParam("file") MultipartFile file, Model model)
             throws Exception{
 
-          try {
-              String name = file.getOriginalFilename();
+        try {
+            String name = file.getOriginalFilename();
 
-              byte[] bytes = file.getBytes();
+            byte[] bytes = file.getBytes();
 
-              // create dir
-              String rootPath = System.getProperty("catalina.home");
-              File dir = new File(rootPath + File.separator + "external_uploads");
-              if (!dir.exists()) {
-                  dir.mkdirs();
-              }
+            // create dir
+            String rootPath = System.getProperty("catalina.home");
+            File dir = new File(rootPath + File.separator + "external_uploads");
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
 
-              // create file
-              File serverFile = new File(dir.getAbsolutePath() + File.separator + name);
-              BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-              stream.write(bytes);
-              stream.close();
+            // create file
+            File serverFile = new File(dir.getAbsolutePath() + File.separator + name);
+            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+            stream.write(bytes);
+            stream.close();
 
-              logger.info("file saved at" + serverFile.getAbsolutePath());
+            logger.info("file saved at" + serverFile.getAbsolutePath());
 
-              model.addAttribute("message", "File uploaded successfully.");
+            model.addAttribute("message", "File uploaded successfully.");
 
 
-          } catch (Exception e){
-              model.addAttribute("message", "Fail! Or file to upload not found.");
-          }
+        } catch (Exception e){
+            model.addAttribute("message", "Fail! Or file to upload not found.");
+        }
         return "redirect:/books/shelf";
     }
-
 
 
 
