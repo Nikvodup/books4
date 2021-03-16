@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.example.app.exceptions.BookShelfLoginException;
 import org.example.app.exceptions.NoFileFoundException;
 import org.example.app.services.BookService;
+import org.example.app.services.FileStorage;
 import org.example.web.dto.AuthorToFind;
 import org.example.web.dto.Book;
 import org.example.web.dto.BookIdToRemove;
@@ -21,6 +22,13 @@ import javax.validation.constraints.NotNull;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/books")
@@ -28,12 +36,14 @@ public class BookShelfController {
 
     private Logger logger = Logger.getLogger(BookShelfController.class);
     private BookService bookService;
+    private FileStorage fileStorage;
 
 
 
     @Autowired
-    public BookShelfController(BookService bookService) {
+    public BookShelfController(BookService bookService, FileStorage fileStorage) {
         this.bookService = bookService;
+        this.fileStorage = fileStorage;
     }
 
     @GetMapping("/shelf")

@@ -2,15 +2,20 @@ package org.example.app.services;
 
 import java.io.File;
 import java.io.IOException;
+
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.stream.Stream;
 
+import org.apache.commons.io.FilenameUtils;
+import org.example.web.dto.FileInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -21,8 +26,11 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileStorage {
 
     Logger log = LoggerFactory.getLogger(this.getClass().getName());
+
+
     private final Path rootLocation =
             Paths.get(System.getProperty("catalina.home") + File.separator + "external_uploads");
+
 
 
     public void store(MultipartFile file){
@@ -34,19 +42,6 @@ public class FileStorage {
     }
 
 
-    public Resource loadFile(String filename) {
-        try {
-            Path file = rootLocation.resolve(filename);
-            Resource resource = new UrlResource(file.toUri());
-            if(resource.exists() || resource.isReadable()) {
-                return resource;
-            }else{
-                throw new RuntimeException("FAIL!");
-            }
-        } catch (MalformedURLException e) {
-            throw new RuntimeException("Error! -> message = " + e.getMessage());
-        }
-    }
 
 
     public void deleteAll() {

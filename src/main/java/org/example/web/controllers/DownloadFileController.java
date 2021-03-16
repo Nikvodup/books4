@@ -2,13 +2,10 @@ package org.example.web.controllers;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.example.app.services.FileStorage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileSystemUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 
@@ -31,13 +26,20 @@ public class DownloadFileController {
 
 	@Autowired
     FileStorage fileStorage;
+	private final List<FileInfo> fileInfos;
+
+	private final Path rootLocation =
+			Paths.get(System.getProperty("catalina.home") + File.separator + "external_uploads");
 
 
+	public DownloadFileController(List<FileInfo> fileInfos) {
+		this.fileInfos = fileInfos;
+	}
 
-	@GetMapping("/files")
-	public String getListFiles(Model model) {
+
+	List<FileInfo> getFileInfos(){
 		List<FileInfo> fileInfos = fileStorage.loadFiles().map(
-				path ->	{
+				path -> {
 					String filename = path.getFileName().toString();
 					String url = MvcUriComponentsBuilder.fromMethodName(DownloadFileController.class,
 							"downloadFile", path.getFileName().toString()).build().toString();
@@ -46,19 +48,28 @@ public class DownloadFileController {
 		)
 				.collect(Collectors.toList());
 
-		model.addAttribute("files", fileInfos);
+		  return fileInfos;
+	}
+
+
+	@GetMapping("/files")
+	public String getListFiles(Model model) {
+
+		model.addAttribute("files", getFileInfos());
 		return "listfiles";
 	}
 
 	/*
 	 * Download Files
 	 */
-	@GetMapping("/files/{filename}")
-	public ResponseEntity<Resource> downloadFile(@PathVariable String filename) {
-		Resource file = fileStorage.loadFile(filename);
+	@GetMapping("/files{filename}")
+	public ResponseEntity<Resource> downloadFile(String filename) throws IOException {
+		Path file = rootLocation.resolve(filename);
+		Resource resource = new UrlResource(file.toUri());
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_DISPOSITION,
-						"attachment; filename=\"" + file.getFilename() + "\"")
-				.body(file);
+						"attachment; filename=\"" + resource.getFilename() + "\"")
+				.body(resource);
 	}
-}
+
+	}
