@@ -1,10 +1,8 @@
 package org.example.web.controllers;
 
 import org.apache.log4j.Logger;
-import org.example.app.exceptions.BookShelfLoginException;
-import org.example.app.exceptions.NoFileFoundException;
+
 import org.example.app.services.BookService;
-import org.example.app.services.FileStorage;
 import org.example.web.dto.AuthorToFind;
 import org.example.web.dto.Book;
 import org.example.web.dto.BookIdToRemove;
@@ -14,21 +12,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.annotation.ApplicationScope;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
+
+
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Controller
 @RequestMapping(value = "/books")
@@ -36,14 +30,15 @@ public class BookShelfController {
 
     private Logger logger = Logger.getLogger(BookShelfController.class);
     private BookService bookService;
-    private FileStorage fileStorage;
+
+
 
 
 
     @Autowired
-    public BookShelfController(BookService bookService, FileStorage fileStorage) {
+    public BookShelfController(BookService bookService) {
         this.bookService = bookService;
-        this.fileStorage = fileStorage;
+
     }
 
     @GetMapping("/shelf")
@@ -56,6 +51,7 @@ public class BookShelfController {
         model.addAttribute("bookList", bookService.getAllBooks());
         return "book_shelf";
     }
+
 
     @GetMapping("/authors")
     public String authors(AuthorToFind authorToFind, Model model) {
@@ -102,6 +98,7 @@ public class BookShelfController {
         }
     }
 
+    @ApplicationScope
     @PostMapping("/authors")
     public String findBook(@Valid AuthorToFind authorToFind, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
@@ -113,7 +110,7 @@ public class BookShelfController {
         } else if (bookService.findBooksByAuthor(authorToFind.getAuthor())) {
             return "redirect:/books/shelf";
         } else {
-            return "redirect:/books/authors";
+            return     this.authors(authorToFind, model);
         }
     }
 
@@ -128,7 +125,7 @@ public class BookShelfController {
         } else if (bookService.findBookByTitle(titleToFind.getTitle())) {
             return "redirect:/books/shelf";
         } else {
-            return "title_page";
+            return this.title(model, titleToFind);
         }
     }
 

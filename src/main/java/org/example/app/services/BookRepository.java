@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.context.annotation.ApplicationScope;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -61,6 +62,7 @@ public class BookRepository implements ProjectRepository<Book> {
     }
 
     //-----------------------------------find by author start
+
     @Override
     public List<Book> findItemList(String author){
         List<Book> matches = new ArrayList<>();

@@ -3,6 +3,7 @@ package org.example.app.services;
 import org.example.web.dto.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.ApplicationScope;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class BookService {
         return bookRepo.removeItemById(bookIdToRemove);
     }
 
-    //--------------------find books start
+    //--------------------find books by author start
 
     public List<Book> findBookList(String author){
         return bookRepo.findItemList(author);
@@ -36,10 +37,10 @@ public class BookService {
 
 
     public boolean findBooksByAuthor(String author) {
-        return  findBookList(author).isEmpty();
+        return findBookList(author).isEmpty();
     }
 
-    //----------------find books end
+    //----------------find books by author end
 
     //----------------find title
 
