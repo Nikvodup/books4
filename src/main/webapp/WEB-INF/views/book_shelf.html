@@ -111,12 +111,12 @@
         <input type="submit" value="Upload">
         <a th:href="@{/files}" class="btn btn-default" role="button">Uploaded file(s)</a>
 
-
+        <div th:if="${message}">
+            <strong><span th:text="${message}"/></strong>
+            <hr>
+        </div>
     </form>
-    <div th:if="${message}">
-        <strong><span th:text="${message}"/></strong>
-        <hr>
-    </div>
+
     <ul th:each="filename: ${files}">
         <li><span th:text="${filename}"/></li>
     </ul>

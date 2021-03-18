@@ -154,13 +154,26 @@ public class BookShelfController {
 
             logger.info("file saved at" + serverFile.getAbsolutePath());
 
+            model.addAttribute("book", new Book());
+            model.addAttribute("bookIdToRemove", new BookIdToRemove());
+            model.addAttribute("authorToFind", new AuthorToFind());
+            model.addAttribute("titleToFind", new TitleToFind());
             model.addAttribute("message", "File uploaded successfully.");
+            model.addAttribute("bookList", bookService.getAllBooks());
 
+            return "book_shelf";
 
         } catch (Exception e){
+            model.addAttribute("book", new Book());
+            model.addAttribute("bookIdToRemove", new BookIdToRemove());
+            model.addAttribute("authorToFind", new AuthorToFind());
+            model.addAttribute("titleToFind", new TitleToFind());
             model.addAttribute("message", "Fail! Or file to upload not found.");
+            model.addAttribute("bookList", bookService.getAllBooks());
+
+            return "book_shelf";
         }
-        return "redirect:/books/shelf";
+
     }
 
 
