@@ -14,4 +14,8 @@ public interface ProjectRepository<T> {
     List<Book> findItemList(String author);
 
     List<Book> findTitleList(String title);
+
+    List<String> findTitles();
+
+     List<String> findAuthors();
 }

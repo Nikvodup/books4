@@ -51,4 +51,12 @@ public class BookService {
     public boolean findBookByTitle(String title){
         return findTitleList(title).isEmpty();
     }
+
+    public List<String> findTitles(){
+        return bookRepo.findTitles();
+    }
+
+    public List<String> findAuthors(){
+        return bookRepo.findAuthors();
+    }
 }

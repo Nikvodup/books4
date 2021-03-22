@@ -27,6 +27,14 @@
         th, td {
             border-bottom: 1px solid #ddd;
         }
+
+        p.validationError{
+            color: red;
+        }
+
+        span.validationError{
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -35,24 +43,33 @@
         <table>
             <tr>
                 <td>
+
+                    <span class="validationError" th:if="${#fields.hasErrors()}" th:errors="*{author}"></span>
+
+
                     <input type="text" placeholder="author" th:field="*{author}">
 
                 </td>
                 <td>
+                    <span class="validationError" th:if="${#fields.hasErrors()}" th:errors="*{title}"></span>
+
                     <input type="text" placeholder="book_title" th:field="*{title}">
                 </td>
                 <td>
+                    <span class="validationError" th:if="${#fields.hasErrors()}" > Digits only!</span>
                     <input type="text" placeholder="size (pages)" th:field="*{size}">
-
-                    <p th:if="${#fields.hasErrors()}">Field value must be digit and be less than 4 signs</p>
 
                 </td>
                 <td>
                     <input type="submit" value="save">
-
                 </td>
+
             </tr>
+            <span   th:if="message2"  class="validationError" th:text="${message2}"></span>
         </table>
+
+
+
     </form>
 
     <form method="post" th:action="@{/books/removeId}" th:object="${bookIdToRemove}">
@@ -64,8 +81,9 @@
                 <td>
                     <input type="submit" value="remove">
                 </td>
-                <td th:if="${#fields.hasErrors()}">
-                    <p>Wrong id or not found</p>
+                <td>
+                    <span class="validationError" if="${#fields.hasErrors()}" th:errors="*{id}"></span>
+
                 </td>
             </tr>
         </table>
@@ -79,9 +97,14 @@
                 </td>
                 <td>
                     <input type="submit" value="find all the books by this author">
+                <td th:if="${line}">
+                    <span class="validationError" th:text="${line}"/>
                 </td>
-                <td th:if="${#fields.hasErrors()}">
-                    <p>Enter the name of the author</p>
+
+                </td>
+                <td>
+                    <span class="validationError" th:if="${#fields.hasErrors()}" th:errors="*{author}"></span>
+
                 </td>
             </tr>
         </table>
@@ -95,9 +118,14 @@
                 </td>
                 <td>
                     <input type="submit" value="find the book by its title">
+                <td th:if="${news}">
+                    <span class="validationError" th:text="${news}"/>
                 </td>
-                <td th:if="${#fields.hasErrors()}">
-                    <p>Enter the title of the book</p>
+                </td>
+
+                <td>
+                <span class="validationError" th:if="${#fields.hasErrors()}" th:errors="*{title}">
+                </span>
                 </td>
             </tr>
         </table>
@@ -111,10 +139,11 @@
         <input type="submit" value="Upload">
         <a th:href="@{/files}" class="btn btn-default" role="button">Uploaded file(s)</a>
 
-        <div th:if="${message}">
-            <strong><span th:text="${message}"/></strong>
-            <hr>
+        <div th:if="message">
+            <span class="validationError" th:text="${message}"></span>
         </div>
+
+
     </form>
 
     <ul th:each="filename: ${files}">

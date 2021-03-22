@@ -41,7 +41,7 @@ public class BookRepository implements ProjectRepository<Book> {
 
     @Override
     public void store(Book book) {
-        if(book.getAuthor()==null | book.getTitle()==null || book.getSize()==null) {
+        if(book.getAuthor()==null & book.getTitle().length() !=0 & book.getSize()==null) {
             book.setId(null);
         } else {
             MapSqlParameterSource parameterSource = new MapSqlParameterSource();
@@ -85,5 +85,21 @@ public class BookRepository implements ProjectRepository<Book> {
                 matches.add(book);
         }
         return new ArrayList<>(matches);
+    }
+
+    public List<String> findTitles(){
+        List<String> titles = new ArrayList<>();
+        for (Book book : retrieveAll()){
+            titles.add(book.getTitle());
+        }
+        return new ArrayList(titles);
+    }
+
+    public List<String> findAuthors(){
+        List<String> authors = new ArrayList<>();
+        for (Book book : retrieveAll()){
+            authors.add(book.getAuthor());
+        }
+        return new ArrayList(authors);
     }
 }

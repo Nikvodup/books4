@@ -5,7 +5,7 @@ import javax.validation.constraints.Min;
 
 public class BookIdToRemove {
 
-     @Min(value = 1)
+    @Min(value = 1, message = "Id is required")
     private int id;
 
     public  int getId() {

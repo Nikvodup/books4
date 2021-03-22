@@ -1,17 +1,19 @@
 package org.example.web.dto;
 
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.*;
+import javax.validation.constraints.Pattern;
 
 public class Book {
     private Integer id;
 
 
+    @Pattern(regexp = "^[A-Za-z]+$", message = "Author's name. Letters only!")
     private String author;
 
+    @NotBlank(message = "Title is required")
     private String title;
 
-    @Digits(integer = 4,fraction = 0)
+      @Digits(integer = 6,fraction = 0, message = "Digits only!")
     private Integer size;
 
     public Integer getId() {
