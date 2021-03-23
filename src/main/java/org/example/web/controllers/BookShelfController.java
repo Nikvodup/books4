@@ -33,9 +33,6 @@ public class BookShelfController {
     private BookService bookService;
 
 
-
-
-
     @Autowired
     public BookShelfController(BookService bookService) {
         this.bookService = bookService;
@@ -54,19 +51,6 @@ public class BookShelfController {
     }
 
 
-    @GetMapping("/authors")
-    public String authors(AuthorToFind authorToFind, Model model) {
-        model.addAttribute("book", new Book());
-        model.addAttribute("matches", bookService.findBookList(authorToFind.getAuthor()));
-        return "authors_page";
-    }
-
-    @GetMapping("/title")
-    public String title(Model model, TitleToFind titleToFind) {
-        model.addAttribute("book", new Book());
-        model.addAttribute("matches", bookService.findTitleList(titleToFind.getTitle()));
-        return "title_page";
-    }
 
     @PostMapping("/save")
     public String saveBook(@Valid Book book,  BindingResult bindingResult, Model model) {
@@ -116,6 +100,16 @@ public class BookShelfController {
         }
     }
 
+    //------------------looking for author's books
+
+    @GetMapping("/authors")
+    public String authors(AuthorToFind authorToFind, Model model) {
+        model.addAttribute("book", new Book());
+        model.addAttribute("matches", bookService.findBookList(authorToFind.getAuthor()));
+        return "authors_page";
+    }
+
+
     @ApplicationScope
     @PostMapping("/authors")
     public String findBook(@Valid AuthorToFind authorToFind, Errors errors, Model model) {
@@ -136,6 +130,17 @@ public class BookShelfController {
             return     this.authors(authorToFind, model);
         }
     }
+
+    //--------------looking for titles
+
+
+    @GetMapping("/title")
+    public String title(Model model, TitleToFind titleToFind) {
+        model.addAttribute("book", new Book());
+        model.addAttribute("matches", bookService.findTitleList(titleToFind.getTitle()));
+        return "title_page";
+    }
+
 
     @PostMapping("/title")
     public String findTitle(@Valid TitleToFind titleToFind, Errors errors, Model model) {

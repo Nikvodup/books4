@@ -86,6 +86,8 @@ public class BookRepository implements ProjectRepository<Book> {
         }
         return new ArrayList<>(matches);
     }
+    
+    //---------filtering titles and authors
 
     public List<String> findTitles(){
         List<String> titles = new ArrayList<>();
