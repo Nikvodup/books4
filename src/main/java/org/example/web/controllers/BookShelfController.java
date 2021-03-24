@@ -61,11 +61,13 @@ public class BookShelfController {
             model.addAttribute("titleToFind", new TitleToFind());
             model.addAttribute("bookList", bookService.getAllBooks());
             return "book_shelf";
-        } else if( bookService.findTitleAuthor().containsKey(book.getAuthor())
-       && bookService.findTitleAuthor().get(book.getAuthor()).equalsIgnoreCase(book.getTitle()))
+        } else if(bookService.findTitleAuthor().keySet().contains(book.getAuthor())
+                && bookService.findTitleAuthor().values().contains(book.getTitle())
+                && bookService.findTitleAuthor().get(book.getAuthor()).equalsIgnoreCase(book.getTitle()))
            {
+
             model.addAttribute("book", book);
-            model.addAttribute("message2", "We have the book!");
+            model.addAttribute("message2", "We have this book!");
             model.addAttribute("bookIdToRemove", new BookIdToRemove());
             model.addAttribute("authorToFind", new AuthorToFind());
             model.addAttribute("titleToFind", new TitleToFind());
