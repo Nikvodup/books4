@@ -61,8 +61,9 @@ public class BookShelfController {
             model.addAttribute("titleToFind", new TitleToFind());
             model.addAttribute("bookList", bookService.getAllBooks());
             return "book_shelf";
-        } else if(bookService.findAuthors().contains(book.getAuthor())
-           && bookService.findTitles().contains(book.getTitle())){
+        } else if( bookService.findTitleAuthor().containsKey(book.getAuthor())
+       && bookService.findTitleAuthor().get(book.getAuthor()).equalsIgnoreCase(book.getTitle()))
+           {
             model.addAttribute("book", book);
             model.addAttribute("message2", "We have the book!");
             model.addAttribute("bookIdToRemove", new BookIdToRemove());
@@ -104,13 +105,16 @@ public class BookShelfController {
 
     @GetMapping("/authors")
     public String authors(AuthorToFind authorToFind, Model model) {
-        model.addAttribute("book", new Book());
-        model.addAttribute("matches", bookService.findBookList(authorToFind.getAuthor()));
-        return "authors_page";
+       model.addAttribute("book", new Book());
+        model.addAttribute("bookIdToRemove", new BookIdToRemove());
+        model.addAttribute("message3", "Back to the main book list.");
+        model.addAttribute("titleToFind", new TitleToFind());
+        model.addAttribute("bookList", bookService.findBookList(authorToFind.getAuthor()));
+        return "book_shelf";
     }
 
 
-    @ApplicationScope
+
     @PostMapping("/authors")
     public String findBook(@Valid AuthorToFind authorToFind, Errors errors, Model model) {
         if (errors.hasErrors()) {

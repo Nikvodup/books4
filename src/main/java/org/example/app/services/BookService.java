@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.ApplicationScope;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BookService {
@@ -52,11 +53,7 @@ public class BookService {
         return findTitleList(title).isEmpty();
     }
 
-    public List<String> findTitles(){
-        return bookRepo.findTitles();
-    }
-
-    public List<String> findAuthors(){
-        return bookRepo.findAuthors();
+    public Map<String,String> findTitleAuthor(){
+        return bookRepo.findTitleAuthor();
     }
 }

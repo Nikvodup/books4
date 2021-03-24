@@ -34,16 +34,16 @@
     <form>
         <table id="title">
             <tr>
-                <th>id</th><br>
-                <th>author</th><br>
-                <th>title</th><br>
+                <th>id</th></br>
+                <th>author</th></br>
+                <th>title</th></br>
                 <th>size</th>
             </tr>
             <tr th:each="book : ${matches}">
-                <td th:text="${book.id}"></td>
-                <td th:text="${book.author}"></td>
-                <td th:text="${book.title}"></td>
-                <td th:text="${book.size}"></td>
+                <td th:text="${book.id}"></td></br>
+                <td th:text="${book.author}"></td></br>
+                <td th:text="${book.title}"></td></br>
+                <td th:text="${book.size}"></td></br>
             </tr>
         </table>
         <a th:href="@{shelf}" >Back to main page</a>

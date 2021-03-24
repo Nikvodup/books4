@@ -150,6 +150,11 @@
         <li><span th:text="${filename}"/></li>
     </ul>
 
+    </br>
+
+      <div th:if="message3">
+        <a th:href="@{/books/shelf}"><span class="validationError" th:text="${message3}"></span></a>
+      </div>
 
     <table id="books">
         <tr>

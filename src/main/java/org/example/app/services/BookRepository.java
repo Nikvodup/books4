@@ -11,7 +11,9 @@ import org.springframework.web.context.annotation.ApplicationScope;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class BookRepository implements ProjectRepository<Book> {
@@ -87,21 +89,15 @@ public class BookRepository implements ProjectRepository<Book> {
         return new ArrayList<>(matches);
     }
     
-    //---------filtering titles and authors
+    //---------filtering titles and authors when saving a book
 
-    public List<String> findTitles(){
-        List<String> titles = new ArrayList<>();
-        for (Book book : retrieveAll()){
-            titles.add(book.getTitle());
+    public Map<String,String> findTitleAuthor(){
+        Map<String,String> map = new HashMap<>();
+        for(Book book : retrieveAll()){
+            map.put(book.getAuthor(), book.getTitle());
         }
-        return new ArrayList(titles);
+        return new HashMap<>(map);
     }
 
-    public List<String> findAuthors(){
-        List<String> authors = new ArrayList<>();
-        for (Book book : retrieveAll()){
-            authors.add(book.getAuthor());
-        }
-        return new ArrayList(authors);
-    }
+
 }
